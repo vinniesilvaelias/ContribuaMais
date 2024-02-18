@@ -7,5 +7,6 @@ namespace ContribuaMais.API.Models.Dados
         public Guid IdItem { get; set; }
         public Guid IdDoador { get; set; }
         public Guid IdCampanha { get; set; }
+        public bool FoiEfetivada { get; set; }
     }
 }
