@@ -6,6 +6,6 @@
         HIGIENE_PESSOAL = 2,
         LIMPEZA = 3,
         ALIMENTO = 4,
-        ROUPA = 5
+        VESTUARIO = 5
     }
 }
