@@ -1,90 +1,84 @@
-﻿//using ContribuaMais.API.Models.Dados;
-//using Microsoft.AspNetCore.Mvc;
+﻿using ContribuaMais.API.Models.Dados;
+using ContribuaMais.API.Models.Dtos;
+using ContribuaMais.API.Models.Enumeradores;
+using Microsoft.AspNetCore.Mvc;
 
-//namespace ContribuaMais.API.Controllers
-//{
-//    [ApiController]
-//    [Route("[controller]")]
-//    public class ItemController : ControllerBase
-//    {
-//        public IList<Item> Itens { get; set; } = new List<Item>();
+namespace ContribuaMais.API.Controllers
+{
+    [ApiController]
+    [Route("[controller]")]
+    public class ItemController : ControladorBase<DtoItem, Item>
+    {
+        protected override void Imprima(DtoItem dto)
+        {
+            Console.Clear();
+            Console.WriteLine(dto.Decricao);
+            Console.WriteLine(dto.Tipo.ToString());
 
-//        #region GET
+        }
 
-//        [HttpGet]
-//        public IList<Item> ObtenhaItens()
-//        {
-//            MockItens();
-//            return Itens;
-//        }
+        protected override Item Converta(DtoItem dto)
+        {
+            var objeto = Entidades.Where(x => x.Codigo == dto.Codigo).FirstOrDefault();
 
-//        [HttpGet]
-//        public Item ObtenhaPorCodigo(int codigo)
-//        {
-//            var item = Itens.Where(x => x.Codigo == codigo).FirstOrDefault();
-//            return item;
-//        }
+            if (objeto == null)
+            {
+                objeto = new Item
+                {
+                    Codigo = Entidades.Count + 1,
+                    Decricao = dto.Decricao,
+                    Tipo = dto.Tipo
+                };
+            }
 
-//        #endregion
+            return objeto;
+        }
 
-//        #region POST
+        protected override DtoItem Converta(Item objeto)
+        {
+            var dto = Dtos.Where(x => x.Codigo == objeto.Codigo).FirstOrDefault();
 
-//        [HttpPost]
-//        public void Adicione([FromBody] Item item)
-//        {
-//            Itens.Add(item);
-//        }
+            if (dto == null)
+            {
+                dto = new DtoItem
+                {
+                    Codigo = Dtos.Count + 1,
+                    Decricao = objeto.Decricao,
+                    Tipo = objeto.Tipo
+                };
+            }
 
-//        #endregion
+            return dto;
+        }
 
-//        #region DELETE
-        
-//        [HttpDelete]
-//        public Item Exclua(int codigo)
-//        {
-//            var item = ObtenhaPorCodigo(codigo);
-//            Itens.Remove(item);
-//            return item;
-//        }
+        protected override void MockEntidades()
+        {
+            Entidades = Dtos.Select(Converta).ToList();
+        }
 
-//        #endregion
-
-//        #region PUT
-
-//        [HttpPut]
-//        public void Atualize(Item item)
-//        {
-//            Exclua(item.Codigo);
-//            Adicione(item);
-//        }
-
-//        #endregion
-
-//        private void MockItens()
-//        {
-//            Itens = new List<Item>
-//            {
-//                new Item
-//                {
-//                    Codigo = 1,
-//                    Descricao = "Roupa de cama",
-//                },
-//                new Item
-//                {
-//                    Codigo = 2,
-//                    Descricao = "Dinheiro",
-//                },
-//                new Item
-//                {
-//                    Codigo = 3,
-//                    Descricao = "Comida",
-//                },
-//                new Item
-//                {
-//                    Codigo = 4,
-//                    Descricao = "Papel higiênico",
-//                }
-//            };
-//        }
-//    }
-//}
+        protected override void MockDtos()
+        {
+            Dtos = new List<DtoItem>
+            {
+                new DtoItem
+                {
+                    Codigo = 1,
+                    Decricao = "Dinheiro",
+                    Tipo = EnumTipoItem.DINHEIRO
+                },
+                new DtoItem
+                {
+                    Codigo = 2,
+                    Decricao = "Roupas de frio infantil",
+                    Tipo = EnumTipoItem.VESTUARIO
+                },
+                new DtoItem
+                {
+                    Codigo = 3,
+                    Decricao = "Sangue",
+                    Tipo = EnumTipoItem.SAUDE
+                },
+            };
+        }
+    }
+}
