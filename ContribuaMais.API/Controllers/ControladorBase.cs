@@ -80,7 +80,8 @@ namespace ContribuaMais.API.Controllers
         #endregion
 
         protected abstract void MockEntidades();
-        protected abstract void Imprima(TDto DtoBase);
+        protected abstract void MockDtos();
+        protected abstract void Imprima(TDto dto);
         protected abstract TEntidade Converta(TDto dto);
         protected abstract TDto Converta(TEntidade objeto);
     }
