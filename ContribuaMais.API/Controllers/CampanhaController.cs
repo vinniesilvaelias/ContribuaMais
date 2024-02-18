@@ -8,14 +8,14 @@ namespace ContribuaMais.API.Controllers
     [Route("[controller]")]
     public class CampanhaController : ControladorBase<DtoCampanha, Campanha>
     {
-        protected override void Imprima(DtoCampanha EntidadeBase)
+        protected override void Imprima(DtoCampanha dto)
         {
             Console.Clear();
-            Console.WriteLine(EntidadeBase.Codigo);
-            Console.WriteLine(EntidadeBase.Descricao);
-            Console.WriteLine(EntidadeBase.Inicio);
-            Console.WriteLine(EntidadeBase.Objetivo);
-            Console.WriteLine(EntidadeBase.Arrecadado);
+            Console.WriteLine(dto.Codigo);
+            Console.WriteLine(dto.Descricao);
+            Console.WriteLine(dto.Inicio);
+            Console.WriteLine(dto.Objetivo);
+            Console.WriteLine(dto.Arrecadado);
         }
 
         protected override Campanha Converta(DtoCampanha dto)
@@ -47,7 +47,7 @@ namespace ContribuaMais.API.Controllers
             {
                 dto = new DtoCampanha
                 {
-                    Codigo = Entidades.Count + 1,
+                    Codigo = Dtos.Count + 1,
                     Descricao = objeto.Descricao,
                     Inicio = objeto.Inicio,
                     Fim = objeto.Fim,
