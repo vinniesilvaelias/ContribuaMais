@@ -1,4 +1,5 @@
-﻿using ContribuaMais.API.Models.TiposBase;
+﻿using ContribuaMais.API.Models.Interfaces;
+using ContribuaMais.API.Models.TiposBase;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ContribuaMais.API.Controllers
@@ -6,8 +7,8 @@ namespace ContribuaMais.API.Controllers
     [ApiController]
     public abstract class ControladorBase<TDto, TEntidade> 
         : ControllerBase
-        where TDto : DtoBase, new()
-        where TEntidade : EntidadeBase, new()
+        where TDto : IDto, new()
+        where TEntidade : IEntidadeBase, new()
     {
         public IList<TEntidade> Entidades { get; set; }
         public IList<TDto> Dtos { get; set; }
