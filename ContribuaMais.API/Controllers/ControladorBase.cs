@@ -4,26 +4,30 @@ using Microsoft.AspNetCore.Mvc;
 namespace ContribuaMais.API.Controllers
 {
     [ApiController]
-    public abstract class ControladorBase<T> 
+    public abstract class ControladorBase<TDto, TEntidade> 
         : ControllerBase
-        where T : DtoBase
+        where TDto : DtoBase, new()
+        where TEntidade : EntidadeBase, new()
     {
-        public IList<T> Itens { get; set; }
+        public IList<TEntidade> Entidades { get; set; }
+        public IList<TDto> Dtos { get; set; }
 
         #region GET
 
         [HttpGet]
-        public IList<T> ObtenhaItens()
+        public IList<TEntidade> ConsulteEntidades()
         {
-            MockItens();
-            return Itens;
+            MockEntidades();
+
+            return Entidades;
         }
 
         [HttpGet]
-        public DtoBase ObtenhaPorCodigo(int codigo)
+        public TDto ConsultePorCodigo(int codigo)
         {
-            var DtoBase = Itens.Where(x => x.Codigo == codigo).FirstOrDefault();
-            return DtoBase;
+            var dto = Dtos.Where(x => x.Codigo == codigo).FirstOrDefault();
+
+            return dto ?? new TDto();
         }
 
         #endregion
@@ -31,9 +35,15 @@ namespace ContribuaMais.API.Controllers
         #region POST
 
         [HttpPost]
-        public void Adicione([FromBody] T DtoBase)
+        public void Adicione([FromBody] TDto dto)
         {
-            Itens.Add(DtoBase);
+            Dtos.Add(dto);
+
+            var objeto = Converta(dto);
+            
+            objeto.Id = new Guid();
+
+            Entidades.Add(objeto);
         }
 
         #endregion
@@ -41,13 +51,17 @@ namespace ContribuaMais.API.Controllers
         #region DELETE
 
         [HttpDelete]
-        public T Exclua(int codigo)
+        public TDto Exclua(int codigo)
         {
-            var objeto = ObtenhaPorCodigo(codigo);
+            var dto = ConsultePorCodigo(codigo);
+            
+            var objeto = Converta(dto);
 
-            Itens.Remove((T)objeto);
+            Dtos.Remove(dto);
 
-            return (T)objeto;
+            Entidades.Remove(objeto);
+
+            return dto;
         }
 
         #endregion
@@ -55,15 +69,18 @@ namespace ContribuaMais.API.Controllers
         #region PUT
 
         [HttpPut]
-        public void Atualize(T DtoBase)
+        public void Atualize(TDto DtoBase)
         {
             Exclua(DtoBase.Codigo);
+
             Adicione(DtoBase);
         }
 
         #endregion
 
-        protected abstract void MockItens();
-        protected abstract void Imprima(T DtoBase);
+        protected abstract void MockEntidades();
+        protected abstract void Imprima(TDto DtoBase);
+        protected abstract TEntidade Converta(TDto dto);
+        protected abstract TDto Converta(TEntidade objeto);
     }
 }
