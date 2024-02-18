@@ -8,5 +8,6 @@ namespace ContribuaMais.API.Models.Dados
         public Guid IdDoador { get; set; }
         public Guid IdCampanha { get; set; }
         public bool FoiEfetivada { get; set; }
+        public decimal Quantidade { get; set; }
     }
 }
