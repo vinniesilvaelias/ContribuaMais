@@ -1,36 +1,81 @@
 ﻿using ContribuaMais.API.Models.Dados;
+using ContribuaMais.API.Models.Dtos;
+using ContribuaMais.API.Models.Enumeradores;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ContribuaMais.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ProjetoSocialController : ControladorBase<ProjetoSocial>
+    public class ProjetoSocialController : ControladorBase<DtoProjetoSocial, ProjetoSocial>
     {
-        protected override void Imprima(ProjetoSocial EntidadeBase)
+        protected override void Imprima(DtoProjetoSocial dto)
         {
-            Console.WriteLine(EntidadeBase.Nome);
-            Console.WriteLine(EntidadeBase.Cnpj);
+            Console.Clear();
+            Console.WriteLine(dto.Nome);
+            Console.WriteLine(dto.Cnpj);
+        }
+
+        protected override ProjetoSocial Converta(DtoProjetoSocial dto)
+        {
+            var objeto = Entidades.Where(x => x.Codigo == dto.Codigo).FirstOrDefault();
+
+            if (objeto == null)
+            {
+                objeto = new ProjetoSocial
+                {
+                    Codigo = Entidades.Count + 1,
+                    Nome = dto.Nome,
+                    Cnpj = dto.Cnpj
+                };
+            }
+
+            return objeto;
+        }
+
+        protected override DtoProjetoSocial Converta(ProjetoSocial objeto)
+        {
+            var dto = Dtos.Where(x => x.Codigo == objeto.Codigo).FirstOrDefault();
+
+            if (dto == null)
+            {
+                dto = new DtoProjetoSocial
+                {
+                    Codigo = Dtos.Count + 1,
+                    Nome = objeto.Nome,
+                    Cnpj = objeto.Cnpj
+                };
+            }
+
+            return dto;
         }
 
         protected override void MockEntidades()
         {
-            Entidades = new List<ProjetoSocial>
+            Entidades = Dtos.Select(Converta).ToList();
+        }
+
+        protected override void MockDtos()
+        {
+            Dtos = new List<DtoProjetoSocial>
             {
-                new ProjetoSocial
+                new DtoProjetoSocial
                 {
-                    Nome = "OVG",
-                    Cnpj = "11111111"
-                },
-                new ProjetoSocial
-                {
-                    Nome = "Teletom",
-                    Cnpj = "222222"
-                },
-                new ProjetoSocial
-                {
+                    Codigo = 1,
                     Nome = "Criança Esperança",
-                    Cnpj = "3333333"
+                    Cnpj = "111111111"
+                },
+                new DtoProjetoSocial
+                {
+                    Codigo = 2,
+                    Nome = "Teletom",
+                    Cnpj = "222222222"
+                },
+                new DtoProjetoSocial
+                {
+                    Codigo = 3,
+                    Nome = "OVG",
+                    Cnpj = "3333333333333"
                 },
             };
         }
