@@ -1,5 +1,4 @@
 ﻿using ContribuaMais.API.Models.Interfaces;
-using ContribuaMais.API.Models.TiposBase;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ContribuaMais.API.Controllers
