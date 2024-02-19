@@ -25,7 +25,7 @@ namespace ContribuaMais.API.Controllers
             {
                 objeto = new Item
                 {
-                    Codigo = Entidades.Count + 1,
+                    Codigo = dto.Codigo,
                     Decricao = dto.Decricao,
                     Tipo = dto.Tipo
                 };

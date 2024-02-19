@@ -10,22 +10,28 @@ namespace ContribuaMais.API.Controllers
         where TDto : IDto, new()
         where TEntidade : IEntidadeBase, new()
     {
-        public IList<TEntidade> Entidades { get; set; }
-        public IList<TDto> Dtos { get; set; }
+        public IList<TEntidade> Entidades { get; set; } = new List<TEntidade>();
+        public IList<TDto> Dtos { get; set; } = new List<TDto>();
 
         #region GET
 
-        [HttpGet]
-        public IList<TEntidade> ConsulteEntidades()
+        [HttpGet("consultelista")]
+        public IList<TDto> ConsulteLista()
         {
+            MockDtos();
+            
             MockEntidades();
-
-            return Entidades;
+            
+            return Dtos;
         }
 
         [HttpGet]
         public TDto ConsultePorCodigo(int codigo)
         {
+            MockDtos();
+
+            MockEntidades();
+
             var dto = Dtos.Where(x => x.Codigo == codigo).FirstOrDefault();
 
             return dto ?? new TDto();
@@ -41,8 +47,8 @@ namespace ContribuaMais.API.Controllers
             Dtos.Add(dto);
 
             var objeto = Converta(dto);
-            
-            objeto.Id = new Guid();
+
+            objeto.Id = Guid.NewGuid();
 
             Entidades.Add(objeto);
         }
@@ -54,6 +60,10 @@ namespace ContribuaMais.API.Controllers
         [HttpDelete]
         public TDto Exclua(int codigo)
         {
+            MockDtos();
+
+            MockEntidades();
+
             var dto = ConsultePorCodigo(codigo);
             
             var objeto = Converta(dto);
@@ -72,6 +82,10 @@ namespace ContribuaMais.API.Controllers
         [HttpPut]
         public void Atualize(TDto DtoBase)
         {
+            MockDtos();
+
+            MockEntidades();
+
             Exclua(DtoBase.Codigo);
 
             Adicione(DtoBase);

@@ -26,7 +26,7 @@ namespace ContribuaMais.API.Controllers
             {
                 campanha = new Campanha
                 {
-                    Codigo = Entidades.Count + 1,
+                    Codigo = dto.Codigo,
                     Descricao = dto.Descricao,
                     Inicio = dto.Inicio,
                     Fim = dto.Fim,
@@ -88,7 +88,7 @@ namespace ContribuaMais.API.Controllers
                 },
                 new DtoCampanha
                 {
-                    Codigo = 1,
+                    Codigo = 3,
                     Descricao = "Dentes limpos",
                     Inicio = DateTime.Now,
                     Fim = DateTime.Now.AddMonths(3),

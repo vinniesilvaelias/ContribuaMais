@@ -24,7 +24,7 @@ namespace ContribuaMais.API.Controllers
             {
                 objeto = new ProjetoSocial
                 {
-                    Codigo = Entidades.Count + 1,
+                    Codigo = dto.Codigo,
                     Nome = dto.Nome,
                     Cnpj = dto.Cnpj
                 };

@@ -24,7 +24,7 @@ namespace ContribuaMais.API.Controllers
             {
                 objeto = new Doador
                 {
-                    Codigo = Entidades.Count + 1,
+                    Codigo = dto.Codigo,
                     Nome = dto.Nome,
                     Cpf = dto.Cpf,
                     Id = Guid.NewGuid()
