@@ -21,6 +21,7 @@ namespace ContribuaMais.API.Dados.Repositorios
         public void Cadastre(TEntidade entidade)
         {
             _contexto.Add(entidade);
+            _contexto.SaveChanges();
         }
 
         public TEntidade Consulte(Guid id)
@@ -33,9 +34,20 @@ namespace ContribuaMais.API.Dados.Repositorios
         public TEntidade Consulte(int codigo)
         {
 
-            var entidade = _contexto.Find<TEntidade>(codigo);
+            var entidade = _contexto.Set<TEntidade>().
+                Where(x => x.Codigo == codigo)
+                .FirstOrDefault();
 
             return entidade;
+        }
+
+        public IList<TEntidade> ConsulteLista()
+        {
+            var lista = _contexto
+                .Set<TEntidade>()
+                .ToList();
+
+            return lista;
         }
 
         public TEntidade Exclua(Guid id)
@@ -44,7 +56,21 @@ namespace ContribuaMais.API.Dados.Repositorios
 
             _contexto.Remove(entidade);
 
+            _contexto.SaveChanges();
             return entidade;
+        }
+
+        public TEntidade Exclua(int codigo)
+        {
+            var entidade = _contexto.Set<TEntidade>()
+                .FirstOrDefault(x => x.Codigo == codigo);
+
+            _contexto.Remove(entidade);
+
+            _contexto.SaveChanges();
+
+            return entidade;
+
         }
     }
 }

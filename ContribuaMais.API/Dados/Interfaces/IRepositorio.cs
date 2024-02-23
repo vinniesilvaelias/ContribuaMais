@@ -8,7 +8,9 @@ namespace ContribuaMais.API.Dados.Interfaces
         void Atualize(TEntidade entidade);
         void Cadastre(TEntidade entidade);
         TEntidade Consulte(Guid id);
+        IList<TEntidade> ConsulteLista();
         TEntidade Consulte(int codigo);
         TEntidade Exclua(Guid id);
+        TEntidade Exclua(int codigo);
     }
 }
