@@ -1,4 +1,5 @@
-﻿using ContribuaMais.API.Models.Dados;
+﻿using ContribuaMais.API.Dados.Interfaces;
+using ContribuaMais.API.Models.Dados;
 using ContribuaMais.API.Models.Dtos;
 using ContribuaMais.API.Models.Enumeradores;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,10 @@ namespace ContribuaMais.API.Controllers
     [Route("[controller]")]
     public class ItemController : ControladorBase<DtoItem, Item>
     {
+        public ItemController(IRepositorio<Item> repositorio) : base(repositorio)
+        {
+        }
+
         protected override void Imprima(DtoItem dto)
         {
             Console.Clear();

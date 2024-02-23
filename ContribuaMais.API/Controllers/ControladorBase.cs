@@ -1,4 +1,7 @@
-﻿using ContribuaMais.API.Models.Interfaces;
+﻿using ContribuaMais.API.Dados.Interfaces;
+using ContribuaMais.API.Dados.Repositorios;
+using ContribuaMais.API.Models.Interfaces;
+using ContribuaMais.API.Models.TiposBase;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ContribuaMais.API.Controllers
@@ -7,8 +10,15 @@ namespace ContribuaMais.API.Controllers
     public abstract class ControladorBase<TDto, TEntidade> 
         : ControllerBase
         where TDto : IDto, new()
-        where TEntidade : IEntidadeBase, new()
+        where TEntidade : EntidadeBase, new()
     {
+        private readonly IRepositorio<TEntidade> _repositorio;
+
+        protected ControladorBase(IRepositorio<TEntidade> repositorio)
+        {
+            _repositorio = repositorio;
+        }
+
         public IList<TEntidade> Entidades { get; set; } = new List<TEntidade>();
         public IList<TDto> Dtos { get; set; } = new List<TDto>();
 
@@ -43,13 +53,16 @@ namespace ContribuaMais.API.Controllers
         [HttpPost]
         public void Adicione([FromBody] TDto dto)
         {
-            Dtos.Add(dto);
+            var entidade = Converta(dto);
 
-            var objeto = Converta(dto);
+            _repositorio.Cadastre(entidade);
+            //Dtos.Add(dto);
 
-            objeto.Id = Guid.NewGuid();
+            //var objeto = Converta(dto);
 
-            Entidades.Add(objeto);
+            //objeto.Id = Guid.NewGuid();
+
+            //Entidades.Add(objeto);
         }
 
         #endregion

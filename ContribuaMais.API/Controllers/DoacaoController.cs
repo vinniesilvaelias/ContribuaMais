@@ -1,4 +1,5 @@
-﻿using ContribuaMais.API.Models.Dados;
+﻿using ContribuaMais.API.Dados.Interfaces;
+using ContribuaMais.API.Models.Dados;
 using ContribuaMais.API.Models.Dtos;
 using ContribuaMais.API.Models.Enumeradores;
 using ContribuaMais.API.Models.Interfaces;
@@ -10,6 +11,10 @@ namespace ContribuaMais.API.Controllers
     [Route("[controller]")]
     public class DoacaoController : ControladorBase<DtoDoacao, Doacao>
     {
+        public DoacaoController(IRepositorio<Doacao> repositorio) : base(repositorio)
+        {
+        }
+
         public IList<DtoDoador> DtoDoadores { get; set; }
         public IList<DtoItem> DtoItens { get; set; }
         public IList<DtoCampanha> DtoCampanhas { get; set; }

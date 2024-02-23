@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ContribuaMais.API.Dados
 {
-    public class ContribuaMaisContexto : DbContext, IContribuaMaisRepositorio
+    public class ContribuaMaisContexto : DbContext
     {
         public ContribuaMaisContexto(DbContextOptions<ContribuaMaisContexto> opcoes)
             : base(opcoes)
