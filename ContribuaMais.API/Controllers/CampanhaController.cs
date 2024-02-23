@@ -1,4 +1,5 @@
-﻿using ContribuaMais.API.Models.Dados;
+﻿using ContribuaMais.API.Dados.Interfaces;
+using ContribuaMais.API.Models.Dados;
 using ContribuaMais.API.Models.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,24 +9,14 @@ namespace ContribuaMais.API.Controllers
     [Route("[controller]")]
     public class CampanhaController : ControladorBase<DtoCampanha, Campanha>
     {
-        protected override void Imprima(DtoCampanha dto)
+        public CampanhaController(IRepositorio<Campanha> repositorio) : base(repositorio)
         {
-            Console.Clear();
-            Console.WriteLine(dto.Codigo);
-            Console.WriteLine(dto.Descricao);
-            Console.WriteLine(dto.Inicio);
-            Console.WriteLine(dto.Objetivo);
-            Console.WriteLine(dto.Arrecadado);
         }
 
         protected override Campanha Converta(DtoCampanha dto)
         {
-            var campanha = Entidades.Where(x => x.Codigo == dto.Codigo).FirstOrDefault();
-
-            if (campanha == null)
-            {
-                campanha = new Campanha
-                {
+               var campanha = new Campanha
+               {
                     Codigo = dto.Codigo,
                     Descricao = dto.Descricao,
                     Inicio = dto.Inicio,
@@ -33,69 +24,24 @@ namespace ContribuaMais.API.Controllers
                     Objetivo = dto.Objetivo,
                     Arrecadado = dto.Arrecadado,
                     Id = Guid.NewGuid()
-                };
-            }
+               };
 
             return campanha;
         }
 
         protected override DtoCampanha Converta(Campanha objeto)
         {
-            var dto = Dtos.Where(x => x.Codigo == objeto.Codigo).FirstOrDefault();
-
-            if (dto == null)
+            var dto = new DtoCampanha
             {
-                dto = new DtoCampanha
-                {
-                    Codigo = Dtos.Count + 1,
-                    Descricao = objeto.Descricao,
-                    Inicio = objeto.Inicio,
-                    Fim = objeto.Fim,
-                    Objetivo = objeto.Objetivo,
-                    Arrecadado = dto.Arrecadado,
-                };
-            }
+                Codigo = objeto.Codigo,
+                Descricao = objeto.Descricao,
+                Inicio = objeto.Inicio,
+                Fim = objeto.Fim,
+                Objetivo = objeto.Objetivo,
+                Arrecadado = objeto.Arrecadado,
+            };
 
             return dto;
-        }
-
-        protected override void MockEntidades()
-        {
-            Entidades = Dtos.Select(Converta).ToList();
-        }
-
-        protected override void MockDtos()
-        {
-            Dtos = new List<DtoCampanha>
-            {
-                new DtoCampanha
-                {
-                    Codigo = 1,
-                    Descricao = "Natal sem fome",
-                    Inicio = DateTime.Now,
-                    Fim = DateTime.Now.AddMonths(3),
-                    Objetivo = 1000,
-                    Arrecadado = 150
-                },
-                new DtoCampanha
-                {
-                    Codigo = 2,
-                    Descricao = "Gotas de vida",
-                    Inicio = DateTime.Now,
-                    Fim = DateTime.Now.AddMonths(3),
-                    Objetivo = 100,
-                    Arrecadado = 10
-                },
-                new DtoCampanha
-                {
-                    Codigo = 3,
-                    Descricao = "Dentes limpos",
-                    Inicio = DateTime.Now,
-                    Fim = DateTime.Now.AddMonths(3),
-                    Objetivo = 1000,
-                    Arrecadado = 150
-                },
-            };
         }
     }
 }

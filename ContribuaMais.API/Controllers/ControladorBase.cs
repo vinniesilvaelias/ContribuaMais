@@ -12,38 +12,32 @@ namespace ContribuaMais.API.Controllers
         where TDto : IDto, new()
         where TEntidade : EntidadeBase, new()
     {
-        private readonly IRepositorio<TEntidade> _repositorio;
+        protected readonly IRepositorio<TEntidade> _repositorio;
 
         protected ControladorBase(IRepositorio<TEntidade> repositorio)
         {
             _repositorio = repositorio;
         }
 
-        public IList<TEntidade> Entidades { get; set; } = new List<TEntidade>();
-        public IList<TDto> Dtos { get; set; } = new List<TDto>();
-
         #region GET
 
         [HttpGet("consultelista")]
         public IList<TDto> ConsulteLista()
         {
-            MockDtos();
-            
-            MockEntidades();
-            
-            return Dtos;
+            var lista = _repositorio
+                .ConsulteLista()
+                .Select(Converta)
+                .ToList();
+
+            return lista;
         }
 
         [HttpGet]
         public TDto ConsultePorCodigo(int codigo)
         {
-            MockDtos();
+            var dto = Converta(_repositorio.Consulte(codigo));
 
-            MockEntidades();
-
-            var dto = Dtos.Where(x => x.Codigo == codigo).FirstOrDefault();
-
-            return dto ?? new TDto();
+            return dto;
         }
 
         #endregion
@@ -56,13 +50,6 @@ namespace ContribuaMais.API.Controllers
             var entidade = Converta(dto);
 
             _repositorio.Cadastre(entidade);
-            //Dtos.Add(dto);
-
-            //var objeto = Converta(dto);
-
-            //objeto.Id = Guid.NewGuid();
-
-            //Entidades.Add(objeto);
         }
 
         #endregion
@@ -72,17 +59,7 @@ namespace ContribuaMais.API.Controllers
         [HttpDelete]
         public TDto Exclua(int codigo)
         {
-            MockDtos();
-
-            MockEntidades();
-
-            var dto = ConsultePorCodigo(codigo);
-            
-            var objeto = Converta(dto);
-
-            Dtos.Remove(dto);
-
-            Entidades.Remove(objeto);
+            var dto = Converta(_repositorio.Exclua((codigo)));
 
             return dto;
         }
@@ -94,20 +71,13 @@ namespace ContribuaMais.API.Controllers
         [HttpPut]
         public void Atualize(TDto DtoBase)
         {
-            MockDtos();
+            var objeto = Converta(DtoBase);
 
-            MockEntidades();
-
-            Exclua(DtoBase.Codigo);
-
-            Adicione(DtoBase);
+            _repositorio.Atualize(objeto);
         }
 
         #endregion
 
-        protected abstract void MockEntidades();
-        protected abstract void MockDtos();
-        protected abstract void Imprima(TDto dto);
         protected abstract TEntidade Converta(TDto dto);
         protected abstract TDto Converta(TEntidade objeto);
     }
