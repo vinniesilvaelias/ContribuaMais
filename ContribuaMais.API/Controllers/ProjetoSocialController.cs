@@ -28,12 +28,17 @@ namespace ContribuaMais.API.Controllers
 
         protected override DtoProjetoSocial Converta(ProjetoSocial objeto)
         {
+            if (objeto is null)
+            {
+                return new DtoProjetoSocial();
+            }
+
             var dto = new DtoProjetoSocial
-                {
-                    Codigo =  1,
-                    Nome = objeto.Nome,
-                    Cnpj = objeto.Cnpj
-                };
+            {
+                Codigo =  1,
+                Nome = objeto.Nome,
+                Cnpj = objeto.Cnpj
+            };
 
             return dto;
         }
