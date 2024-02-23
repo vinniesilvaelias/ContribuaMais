@@ -2,7 +2,7 @@
 
 namespace ContribuaMais.API.Dados.Repositorios
 {
-    public class RepositorioCampanha : RepositorioGenerico<Campanha>
+    public class RepositorioCampanha : RepositorioBase<Campanha>
     {
         public RepositorioCampanha(ContribuaMaisContexto contexto) : base(contexto)
         {

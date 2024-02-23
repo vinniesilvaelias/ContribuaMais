@@ -3,24 +3,40 @@ using ContribuaMais.API.Models.TiposBase;
 
 namespace ContribuaMais.API.Dados.Repositorios
 {
-    public class RepositorioGenerico<TEntidade> : IRepositorio<TEntidade>
-        where TEntidade : EntidadeBase
+    public class RepositorioBase<TEntidade> : IRepositorio<TEntidade>
+        where TEntidade : class
     {
         private ContribuaMaisContexto _contexto;
 
-        public RepositorioGenerico(ContribuaMaisContexto contexto)
+        public RepositorioBase(ContribuaMaisContexto contexto)
         {
             _contexto  = contexto;
         }
         public void Atualize(TEntidade entidade)
         {
             _contexto.Update(entidade);
+            
+            _contexto.SaveChanges();
+        }
+
+        public void AtualizeLista(IList<TEntidade> entidades)
+        {
+            _contexto.UpdateRange(entidades);
+            
             _contexto.SaveChanges();
         }
 
         public void Cadastre(TEntidade entidade)
         {
             _contexto.Add(entidade);
+            
+            _contexto.SaveChanges();
+        }
+
+        public void CadastreLista(IList<TEntidade> entidades)
+        {
+            _contexto.AddRange(entidades);
+
             _contexto.SaveChanges();
         }
 
@@ -33,10 +49,9 @@ namespace ContribuaMais.API.Dados.Repositorios
 
         public TEntidade Consulte(int codigo)
         {
-
-            var entidade = _contexto.Set<TEntidade>().
-                Where(x => x.Codigo == codigo)
-                .FirstOrDefault();
+            var entidade = _contexto
+                           .Set<TEntidade>()
+                           .FirstOrDefault(x => x.Codigo == codigo);
 
             return entidade;
         }
@@ -52,25 +67,27 @@ namespace ContribuaMais.API.Dados.Repositorios
 
         public TEntidade Exclua(Guid id)
         {
-            var entidade = _contexto.Find<TEntidade>(id);
+            var entidade = Consulte(id);
 
             _contexto.Remove(entidade);
 
             _contexto.SaveChanges();
+
             return entidade;
         }
 
         public TEntidade Exclua(int codigo)
         {
-            var entidade = _contexto.Set<TEntidade>()
-                .FirstOrDefault(x => x.Codigo == codigo);
+            var entidade = Consulte(codigo);
+            
+            if (entidade is not null)
+            {
+                _contexto.Remove(entidade);
 
-            _contexto.Remove(entidade);
-
-            _contexto.SaveChanges();
+                _contexto.SaveChanges();
+            }
 
             return entidade;
-
         }
     }
 }
