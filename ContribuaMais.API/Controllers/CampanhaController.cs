@@ -31,6 +31,11 @@ namespace ContribuaMais.API.Controllers
 
         protected override DtoCampanha Converta(Campanha objeto)
         {
+            if (objeto is null)
+            {
+                return new DtoCampanha();
+            }
+
             var dto = new DtoCampanha
             {
                 Codigo = objeto.Codigo,

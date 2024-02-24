@@ -1,6 +1,8 @@
 using ContribuaMais.API.Dados;
 using ContribuaMais.API.Dados.Interfaces;
 using ContribuaMais.API.Dados.Repositorios;
+using ContribuaMais.API.Servicos.Implementacoes;
+using ContribuaMais.API.Servicos.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,18 +16,14 @@ builder.Services.AddSwaggerGen();
 
 var conexaoBancoDeDados = builder.Configuration.GetConnectionString("ContribuaMais");
 
-builder.Services.AddScoped(typeof(IRepositorio<>), typeof(RepositorioGenerico<>));
-builder.Services.AddDbContext<ContribuaMaisContexto>(
-    opc =>
-    {
-        opc.UseSqlServer(conexaoBancoDeDados);
-    }) ;
+builder.Services.AddScoped(typeof(IRepositorio<>), typeof(RepositorioBase<>));
 
+builder.Services.AddScoped(typeof(IServico<>), typeof(ServicoBase<>));
+
+builder.Services.AddDbContext<ContribuaMaisContexto>(
+    opc => opc.UseSqlServer(conexaoBancoDeDados));
 
 var app = builder.Build();
-
-
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
