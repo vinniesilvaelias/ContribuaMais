@@ -1,4 +1,5 @@
-﻿using ContribuaMais.API.Dados.Interfaces;
+﻿using ContribuaMais.API.Dados;
+using ContribuaMais.API.Dados.Interfaces;
 using ContribuaMais.API.Models.Interfaces;
 using ContribuaMais.API.Models.TiposBase;
 using ContribuaMais.API.Servicos.Interfaces;
@@ -36,37 +37,52 @@ namespace ContribuaMais.API.Servicos.Implementacoes
 
         public void CadastreLista(IList<TEntidade> entidades)
         {
-            throw new NotImplementedException();
+            _repositorio.CadastreLista(entidades);
         }
 
         public TEntidade Consulte(Guid id)
         {
-            throw new NotImplementedException();
+            var entidade =  _repositorio.Consulte(id);
+
+            return entidade;
         }
 
         public TEntidade Consulte(int codigo)
         {
-            throw new NotImplementedException();
+            var entidade = _repositorio.Consulte(codigo);
+
+            return entidade;
         }
 
         public IList<TEntidade> ConsulteLista()
         {
-            throw new NotImplementedException();
+            var lista = _repositorio.ConsulteLista();
+
+            return lista;
         }
 
         public TEntidade Exclua(Guid id)
         {
-            throw new NotImplementedException();
+            var entidade = _repositorio.Exclua(id);
+
+            return entidade;
         }
 
         public TEntidade Exclua(int codigo)
         {
-            throw new NotImplementedException();
+            var entidade = _repositorio.Exclua(codigo);
+
+            return entidade;
         }
 
-        public IList<TEntidade> ExcluaLista(IList<Guid> id)
+        public IList<TEntidade> ExcluaLista(IList<Guid> lista)
         {
-            throw new NotImplementedException();
+            var listaExclusao = lista
+                                .ToList()
+                                .Select(Exclua)
+                                .ToList();
+
+            return listaExclusao;
         }
     }
 }

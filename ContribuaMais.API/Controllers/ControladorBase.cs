@@ -1,22 +1,23 @@
-﻿using ContribuaMais.API.Dados.Interfaces;
-using ContribuaMais.API.Dados.Repositorios;
-using ContribuaMais.API.Models.Interfaces;
+﻿using AutoMapper;
 using ContribuaMais.API.Models.TiposBase;
+using ContribuaMais.API.Servicos.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ContribuaMais.API.Controllers
 {
     [ApiController]
-    public abstract class ControladorBase<TDto, TEntidade> 
-        : ControllerBase
-        where TDto : IDto, new()
-        where TEntidade : EntidadeBase, new()
+    public abstract class ControladorBase<TDto, TEntidade> : ControllerBase
+        where TEntidade : EntidadeBase
     {
-        protected readonly IRepositorio<TEntidade> _repositorio;
+        protected readonly IServico<TEntidade> _servico;
+        protected readonly IMapper _mapper;
 
-        protected ControladorBase(IRepositorio<TEntidade> repositorio)
+        protected ControladorBase(
+            IServico<TEntidade> servico, 
+            IMapper mapper)
         {
-            _repositorio = repositorio;
+            _servico = servico;
+            _mapper = mapper;
         }
 
         #region GET
@@ -24,10 +25,10 @@ namespace ContribuaMais.API.Controllers
         [HttpGet("consultelista")]
         public IList<TDto> ConsulteLista()
         {
-            var lista = _repositorio
-                .ConsulteLista()
-                .Select(Converta)
-                .ToList();
+            var lista = _servico
+                        .ConsulteLista()
+                        .Select(_mapper.Map<TDto>)
+                        .ToList();
 
             return lista;
         }
@@ -35,7 +36,9 @@ namespace ContribuaMais.API.Controllers
         [HttpGet]
         public TDto ConsultePorCodigo(int codigo)
         {
-            var dto = Converta(_repositorio.Consulte(codigo));
+            var entidade = _servico.Consulte(codigo);
+
+            var dto = _mapper.Map<TDto>(entidade);
 
             return dto;
         }
@@ -47,9 +50,9 @@ namespace ContribuaMais.API.Controllers
         [HttpPost]
         public void Adicione([FromBody] TDto dto)
         {
-            var entidade = Converta(dto);
+            var entidade = _mapper.Map<TEntidade>(dto);
 
-            _repositorio.Cadastre(entidade);
+            _servico.Cadastre(entidade);
         }
 
         #endregion
@@ -59,7 +62,9 @@ namespace ContribuaMais.API.Controllers
         [HttpDelete]
         public TDto Exclua(int codigo)
         {
-            var dto = Converta(_repositorio.Exclua((codigo)));
+            var entidade = _servico.Exclua(codigo);
+
+            var dto = _mapper.Map<TDto>(entidade);
 
             return dto;
         }
@@ -69,16 +74,13 @@ namespace ContribuaMais.API.Controllers
         #region PUT
 
         [HttpPut]
-        public void Atualize(TDto DtoBase)
+        public void Atualize(TDto dto)
         {
-            var objeto = Converta(DtoBase);
+            var entidade = _mapper.Map<TEntidade>(dto);
 
-            _repositorio.Atualize(objeto);
+            _servico.Atualize(entidade);
         }
 
         #endregion
-
-        protected abstract TEntidade Converta(TDto dto);
-        protected abstract TDto Converta(TEntidade objeto);
     }
 }

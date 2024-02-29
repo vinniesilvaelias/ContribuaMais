@@ -3,9 +3,9 @@ using ContribuaMais.API.Models.Dados;
 
 namespace ContribuaMais.API.Servicos.Implementacoes
 {
-    public class ServicoCampanha : ServicoBase<Campanha>
+    public class ServicoDoador : ServicoBase<Doador>
     {
-        public ServicoCampanha(IRepositorio<Campanha> repositorio) : base(repositorio)
+        public ServicoDoador(IRepositorio<Doador> repositorio) : base(repositorio)
         {
         }
     }

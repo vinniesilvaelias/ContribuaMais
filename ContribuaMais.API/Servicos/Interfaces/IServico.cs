@@ -1,4 +1,6 @@
-﻿using ContribuaMais.API.Models.Interfaces;
+﻿using ContribuaMais.API.Dados;
+using ContribuaMais.API.Models.Interfaces;
+using ContribuaMais.API.Models.TiposBase;
 
 namespace ContribuaMais.API.Servicos.Interfaces
 {

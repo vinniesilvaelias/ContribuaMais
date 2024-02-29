@@ -16,6 +16,5 @@ namespace ContribuaMais.API.Dados
         public DbSet<Doador> Doadores { get; set; }
         public DbSet<Item> Itens { get; set; }
         public DbSet<ProjetoSocial> ProjetoSociais { get; set; }
-
     }
 }

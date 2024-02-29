@@ -3,5 +3,6 @@
     public interface IEntidadeBase
     {
         Guid Id { get; set; }
+        public int Codigo { get; set; }
     }
 }

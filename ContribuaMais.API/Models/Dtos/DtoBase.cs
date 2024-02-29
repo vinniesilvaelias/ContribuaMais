@@ -2,7 +2,7 @@
 
 namespace ContribuaMais.API.Models.Dtos
 {
-    public abstract class DtoBase : IDto
+    public class DtoBase : IDto
     {
         public int Codigo { get; set; }
     }

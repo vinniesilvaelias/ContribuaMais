@@ -1,4 +1,6 @@
-﻿using ContribuaMais.API.Models.TiposBase;
+﻿using ContribuaMais.API.Dados.Repositorios;
+using ContribuaMais.API.Models.TiposBase;
+using Microsoft.EntityFrameworkCore;
 
 namespace ContribuaMais.API.Dados.Interfaces
 {

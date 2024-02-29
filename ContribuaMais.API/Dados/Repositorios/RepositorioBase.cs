@@ -1,62 +1,64 @@
 ﻿using ContribuaMais.API.Dados.Interfaces;
 using ContribuaMais.API.Models.TiposBase;
+using Microsoft.EntityFrameworkCore;
 
 namespace ContribuaMais.API.Dados.Repositorios
 {
     public class RepositorioBase<TEntidade> : IRepositorio<TEntidade>
-        where TEntidade : class
+        where TEntidade : EntidadeBase, new()
     {
-        private ContribuaMaisContexto _contexto;
+        protected ContribuaMaisContexto _contexto;
 
         public RepositorioBase(ContribuaMaisContexto contexto)
         {
             _contexto  = contexto;
         }
-        public void Atualize(TEntidade entidade)
+
+        public virtual void Atualize(TEntidade entidade)
         {
             _contexto.Update(entidade);
             
             _contexto.SaveChanges();
         }
 
-        public void AtualizeLista(IList<TEntidade> entidades)
+        public virtual void AtualizeLista(IList<TEntidade> entidades)
         {
             _contexto.UpdateRange(entidades);
             
             _contexto.SaveChanges();
         }
 
-        public void Cadastre(TEntidade entidade)
+        public virtual void Cadastre(TEntidade entidade)
         {
             _contexto.Add(entidade);
             
             _contexto.SaveChanges();
         }
 
-        public void CadastreLista(IList<TEntidade> entidades)
+        public virtual void CadastreLista(IList<TEntidade> entidades)
         {
             _contexto.AddRange(entidades);
 
             _contexto.SaveChanges();
         }
 
-        public TEntidade Consulte(Guid id)
+        public virtual TEntidade Consulte(Guid id)
         {
             var entidade = _contexto.Find<TEntidade>(id);
 
             return entidade;
         }
 
-        public TEntidade Consulte(int codigo)
+        public virtual TEntidade Consulte(int codigo)
         {
             var entidade = _contexto
                            .Set<TEntidade>()
                            .FirstOrDefault(x => x.Codigo == codigo);
 
-            return entidade;
+            return entidade ?? new TEntidade { Id = Guid.NewGuid() };
         }
 
-        public IList<TEntidade> ConsulteLista()
+        public virtual IList<TEntidade> ConsulteLista()
         {
             var lista = _contexto
                 .Set<TEntidade>()
@@ -65,7 +67,7 @@ namespace ContribuaMais.API.Dados.Repositorios
             return lista;
         }
 
-        public TEntidade Exclua(Guid id)
+        public virtual TEntidade Exclua(Guid id)
         {
             var entidade = Consulte(id);
 
@@ -76,7 +78,7 @@ namespace ContribuaMais.API.Dados.Repositorios
             return entidade;
         }
 
-        public TEntidade Exclua(int codigo)
+        public virtual TEntidade Exclua(int codigo)
         {
             var entidade = Consulte(codigo);
             

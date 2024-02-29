@@ -1,7 +1,7 @@
-﻿using ContribuaMais.API.Dados.Interfaces;
+﻿using AutoMapper;
 using ContribuaMais.API.Models.Dados;
 using ContribuaMais.API.Models.Dtos;
-using ContribuaMais.API.Models.TiposBase;
+using ContribuaMais.API.Servicos.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ContribuaMais.API.Controllers
@@ -10,28 +10,8 @@ namespace ContribuaMais.API.Controllers
     [Route("[controller]")]
     public class DoadorController : ControladorBase<DtoDoador, Doador>
     {
-        public DoadorController(IRepositorio<Doador> repositorio) : base(repositorio)
+        public DoadorController(IServico<Doador> servico, IMapper mapper) : base(servico, mapper)
         {
-        }
-
-        protected override Doador Converta(DtoDoador dto)
-        {
-            var objeto = new Doador
-            {
-                Codigo = dto.Codigo,
-                Nome = dto.Nome,
-                Cpf = dto.Cpf,
-                Id = Guid.NewGuid()
-            };
-
-            return objeto;
-        }
-
-        protected override DtoDoador Converta(Doador objeto)
-        {
-            var dto = new DtoDoador { };
-
-            return dto;
         }
     }
 }
