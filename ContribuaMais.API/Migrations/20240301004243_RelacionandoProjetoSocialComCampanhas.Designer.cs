@@ -4,6 +4,7 @@ using ContribuaMais.API.Dados;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ContribuaMais.API.Migrations
 {
     [DbContext(typeof(ContribuaMaisContexto))]
-    partial class ContribuaMaisContextoModelSnapshot : ModelSnapshot
+    [Migration("20240301004243_RelacionandoProjetoSocialComCampanhas")]
+    partial class RelacionandoProjetoSocialComCampanhas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

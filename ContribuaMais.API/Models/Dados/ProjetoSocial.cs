@@ -6,5 +6,6 @@ namespace ContribuaMais.API.Models.Dados
     {
         public string Nome { get; set; }
         public string Cnpj { get; set; }
+        public IList<Campanha> Campanhas { get; set; }
     }
 }
