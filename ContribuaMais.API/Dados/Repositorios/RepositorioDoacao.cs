@@ -23,7 +23,7 @@ namespace ContribuaMais.API.Dados.Repositorios
             return lista;
         }
 
-        public override Doacao Consulte(int codigo)
+        public override Doacao? Consulte(int codigo)
         {
             var doacao = _contexto
                         .Set<Doacao>()
@@ -35,7 +35,7 @@ namespace ContribuaMais.API.Dados.Repositorios
             return doacao;
         }
 
-        public override Doacao Consulte(Guid id)
+        public override Doacao? Consulte(Guid id)
         {
             var doacao = _contexto
                         .Set<Doacao>()

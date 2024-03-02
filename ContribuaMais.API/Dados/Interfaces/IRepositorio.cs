@@ -11,10 +11,10 @@ namespace ContribuaMais.API.Dados.Interfaces
         void AtualizeLista(IList<TEntidade> entidades);
         void Cadastre(TEntidade entidade);
         void CadastreLista(IList<TEntidade> entidades);
-        TEntidade Consulte(Guid id);
-        IList<TEntidade> ConsulteLista();
-        TEntidade Consulte(int codigo);
-        TEntidade Exclua(Guid id);
-        TEntidade Exclua(int codigo);
+        TEntidade? Consulte(Guid id);
+        IList<TEntidade>? ConsulteLista();
+        TEntidade? Consulte(int codigo);
+        TEntidade? Exclua(Guid id);
+        TEntidade? Exclua(int codigo);
     }
 }

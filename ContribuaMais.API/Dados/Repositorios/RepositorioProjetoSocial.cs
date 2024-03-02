@@ -8,7 +8,8 @@ namespace ContribuaMais.API.Dados.Repositorios
         public RepositorioProjetoSocial(ContribuaMaisContexto contexto) : base(contexto)
         {
         }
-        public override IList<ProjetoSocial> ConsulteLista()
+
+        public override IList<ProjetoSocial>? ConsulteLista()
         {
             var lista = _contexto
                         .Set<ProjetoSocial>()
@@ -18,7 +19,7 @@ namespace ContribuaMais.API.Dados.Repositorios
             return lista;
         }
 
-        public override ProjetoSocial Consulte(int codigo)
+        public override ProjetoSocial? Consulte(int codigo)
         {
             var projetoSocial = _contexto
                         .Set<ProjetoSocial>()
@@ -28,7 +29,7 @@ namespace ContribuaMais.API.Dados.Repositorios
             return projetoSocial;
         }
 
-        public override ProjetoSocial Consulte(Guid id)
+        public override ProjetoSocial? Consulte(Guid id)
         {
             var ProjetoSocial = _contexto
                         .Set<ProjetoSocial>()
@@ -39,4 +40,3 @@ namespace ContribuaMais.API.Dados.Repositorios
         }
     }
 }
-

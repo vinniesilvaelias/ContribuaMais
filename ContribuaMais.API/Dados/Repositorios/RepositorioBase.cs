@@ -30,6 +30,8 @@ namespace ContribuaMais.API.Dados.Repositorios
 
         public virtual void Cadastre(TEntidade entidade)
         {
+            entidade.Id = Guid.NewGuid();
+
             _contexto.Add(entidade);
             
             _contexto.SaveChanges();
@@ -42,23 +44,23 @@ namespace ContribuaMais.API.Dados.Repositorios
             _contexto.SaveChanges();
         }
 
-        public virtual TEntidade Consulte(Guid id)
+        public virtual TEntidade? Consulte(Guid id)
         {
             var entidade = _contexto.Find<TEntidade>(id);
 
             return entidade;
         }
 
-        public virtual TEntidade Consulte(int codigo)
+        public virtual TEntidade? Consulte(int codigo)
         {
             var entidade = _contexto
                            .Set<TEntidade>()
                            .FirstOrDefault(x => x.Codigo == codigo);
 
-            return entidade ?? new TEntidade { Id = Guid.NewGuid() };
+            return entidade;
         }
 
-        public virtual IList<TEntidade> ConsulteLista()
+        public virtual IList<TEntidade>? ConsulteLista()
         {
             var lista = _contexto
                 .Set<TEntidade>()
@@ -67,7 +69,7 @@ namespace ContribuaMais.API.Dados.Repositorios
             return lista;
         }
 
-        public virtual TEntidade Exclua(Guid id)
+        public virtual TEntidade? Exclua(Guid id)
         {
             var entidade = Consulte(id);
 
@@ -78,7 +80,7 @@ namespace ContribuaMais.API.Dados.Repositorios
             return entidade;
         }
 
-        public virtual TEntidade Exclua(int codigo)
+        public virtual TEntidade? Exclua(int codigo)
         {
             var entidade = Consulte(codigo);
             

@@ -8,6 +8,7 @@ namespace ContribuaMais.API.Models.Dtos
         public DtoDoador Doador { get; set; }
         public DtoCampanha Campanha { get; set; }
         public bool FoiEfetivada { get; set; }
-        public int Quantidade { get; set; }
+        public string Quantidade { get; set; }
+        public DateTime Data { get; set; }
     }
 }
