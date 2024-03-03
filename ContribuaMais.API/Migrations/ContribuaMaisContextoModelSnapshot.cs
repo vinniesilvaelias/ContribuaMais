@@ -113,34 +113,12 @@ namespace ContribuaMais.API.Migrations
                     b.Property<int>("Codigo")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("ContatoId")
+                    b.Property<Guid>("PessoaId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("DataNascimento")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("DocumentosPessoaisId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("EnderecoId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Nome")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Sexo")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SobreNome")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ContatoId");
-
-                    b.HasIndex("DocumentosPessoaisId");
-
-                    b.HasIndex("EnderecoId");
+                    b.HasIndex("PessoaId");
 
                     b.ToTable("Doadores");
                 });
@@ -171,7 +149,7 @@ namespace ContribuaMais.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Contato");
+                    b.ToTable("Contatos");
                 });
 
             modelBuilder.Entity("ContribuaMais.API.Models.Dados.Infraestrutura.DocumentosPessoais", b =>
@@ -227,7 +205,48 @@ namespace ContribuaMais.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Endereco");
+                    b.ToTable("Enderecos");
+                });
+
+            modelBuilder.Entity("ContribuaMais.API.Models.Dados.Infraestrutura.Pessoa", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Codigo")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("ContatoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DataNascimento")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("DocumentosPessoaisId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("EnderecoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Nome")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Sexo")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SobreNome")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContatoId");
+
+                    b.HasIndex("DocumentosPessoaisId");
+
+                    b.HasIndex("EnderecoId");
+
+                    b.ToTable("Pessoas");
                 });
 
             modelBuilder.Entity("ContribuaMais.API.Models.Dados.Item", b =>
@@ -308,6 +327,17 @@ namespace ContribuaMais.API.Migrations
                 });
 
             modelBuilder.Entity("ContribuaMais.API.Models.Dados.Doador", b =>
+                {
+                    b.HasOne("ContribuaMais.API.Models.Dados.Infraestrutura.Pessoa", "Pessoa")
+                        .WithMany()
+                        .HasForeignKey("PessoaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pessoa");
+                });
+
+            modelBuilder.Entity("ContribuaMais.API.Models.Dados.Infraestrutura.Pessoa", b =>
                 {
                     b.HasOne("ContribuaMais.API.Models.Dados.Infraestrutura.Contato", "Contato")
                         .WithMany()

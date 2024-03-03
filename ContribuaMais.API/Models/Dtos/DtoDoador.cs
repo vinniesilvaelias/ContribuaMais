@@ -1,9 +1,10 @@
-﻿namespace ContribuaMais.API.Models.Dtos
+﻿using ContribuaMais.API.Models.Dados.Dtos.Infraestrutura;
+using ContribuaMais.API.Models.Interfaces;
+
+namespace ContribuaMais.API.Models.Dtos
 {
-    public class DtoDoador : DtoBase
+    public class DtoDoador : DtoBase, IDto
     {
-        public string Nome { get; set; }
-        public string Cpf { get; set; }
-        public string Endereco { get; set; }
+        public DtoPessoa Pessoa { get; set; }
     }
 }
