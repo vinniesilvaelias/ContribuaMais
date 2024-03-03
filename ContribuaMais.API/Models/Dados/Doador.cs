@@ -1,11 +1,8 @@
-﻿using ContribuaMais.API.Models.TiposBase;
-
+﻿using ContribuaMais.API.Models.Dados.Infraestrutura;
+using ContribuaMais.API.Models.Interfaces;
 namespace ContribuaMais.API.Models.Dados
 {
-    public class Doador : EntidadeBase
+    public class Doador : Pessoa, IEntidadeBase
     {
-        public string Nome { get; set; }
-        public string Cpf { get; set; }
-        public string Endereco { get; set; }
     }
 }
