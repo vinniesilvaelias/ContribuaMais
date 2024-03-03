@@ -1,29 +1,28 @@
-﻿using System;
-using ContribuaMais.API.Models.Dados.Infraestrutura.Enumeradores;
-using ContribuaMais.API.Models.Dados.Infraestrutura;
+﻿using ContribuaMais.API.Models.Dados.Infraestrutura.Enumeradores;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace ContribuaMais.API.Migrations
 {
-    // <inheritdoc />
-    public partial class Criacao_Conceito_Pessoa_Endereco : Migration
+    /// <inheritdoc />
+    public partial class CricaoPessoaDocumentosPessoaisEnderecoContato : Migration
     {
+
         // <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "Cpf",
-                table: "Doadores");
+            //migrationBuilder.DropColumn(
+            //    name: "Cpf",
+            //    table: "Doadores");
 
-            migrationBuilder.DropColumn(
-                name: "Endereco",
-                table: "Doadores");
+            //migrationBuilder.DropColumn(
+            //    name: "Endereco",
+            //    table: "Doadores");
 
-            migrationBuilder.DropColumn(
-                name: "Nome",
-                table: "Doadores");
+            //migrationBuilder.DropColumn(
+            //    name: "Nome",
+            //    table: "Doadores");
 
             migrationBuilder.CreateTable(
                 name: "Pessoas",
@@ -44,17 +43,16 @@ namespace ContribuaMais.API.Migrations
                     table.PrimaryKey("PK_Pessoas", x => x.Id);
                 });
 
+            //migrationBuilder.AddColumn<Guid>(
+            //    name: "PessoaId",
+            //    table: "Doadores",
+            //    type: "uniqueidentifier",
+            //    nullable: true);
 
-            migrationBuilder.AddColumn<Guid>(
-                name: "PessoaId",
-                table: "Doadores",
-                type: "uniqueidentifier",
-                nullable: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Doadores_PessoaId",
-                table: "Doadores",
-                column: "PessoaId");
+            //migrationBuilder.CreateIndex(
+            //    name: "IX_Doadores_PessoaId",
+            //    table: "Doadores",
+            //    column: "PessoaId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Doadores_Pessoas_PessoaId",
@@ -64,20 +62,20 @@ namespace ContribuaMais.API.Migrations
                 principalColumn: "Id");
 
             migrationBuilder.CreateTable(
-                name: "Contato",
+                name: "Contatos",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Codigo = table.Column<int>(type: "int", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Celular = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Facebook = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Instragram = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Linkedin = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Codigo = table.Column<int>(type: "int", nullable: false)
+                    Linkedin = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Contato", x => x.Id);
+                    table.PrimaryKey("PK_Contatos", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -85,9 +83,9 @@ namespace ContribuaMais.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Codigo = table.Column<int>(type: "int", nullable: false),
                     CPF = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RG = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Codigo = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -95,18 +93,18 @@ namespace ContribuaMais.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Endereco",
+                name: "Enderecos",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Codigo = table.Column<int>(type: "int", nullable: false),
                     Logradouro = table.Column<int>(type: "int", nullable: true),
                     Numero = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Complemento = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Bairro = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Cidade = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Estado = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CEP = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Codigo = table.Column<int>(type: "int", nullable: false)
+                    CEP = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -129,10 +127,10 @@ namespace ContribuaMais.API.Migrations
                 column: "EnderecoId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Pessoas_Contato_ContatoId",
+                name: "FK_Pessoas_Contatos_ContatoId",
                 table: "Pessoas",
                 column: "ContatoId",
-                principalTable: "Contato",
+                principalTable: "Contatos",
                 principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
@@ -143,18 +141,29 @@ namespace ContribuaMais.API.Migrations
                 principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Pessoas_Endereco_EnderecoId",
+                name: "FK_Pessoas_Enderecos_EnderecosId",
                 table: "Pessoas",
                 column: "EnderecoId",
-                principalTable: "Endereco",
+                principalTable: "Enderecos",
                 principalColumn: "Id");
         }
 
         // <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+
             migrationBuilder.DropForeignKey(
-                name: "FK_Pessoas_Contato_ContatoId",
+                name: "FK_Doadores_Pessoas_PessoaId",
+                table: "Doadores");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Doadores_PessoaId",
+                table: "Doadores");
+
+            //////////////////////////////////////////////////////////////////
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Pessoas_Contatos_ContatoId",
                 table: "Pessoas");
 
             migrationBuilder.DropForeignKey(
@@ -162,7 +171,7 @@ namespace ContribuaMais.API.Migrations
                 table: "Pessoas");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Pessoas_Endereco_EnderecoId",
+                name: "FK_Pessoas_Enderecos_EnderecoId",
                 table: "Pessoas");
 
 
@@ -185,7 +194,7 @@ namespace ContribuaMais.API.Migrations
                 name: "DocumentosPessoais");
 
             migrationBuilder.DropTable(
-                name: "Endereco");
+                name: "Enderecos");
 
             migrationBuilder.DropIndex(
                 name: "IX_Pessoas_ContatoId",
@@ -196,7 +205,7 @@ namespace ContribuaMais.API.Migrations
                 table: "Pessoas");
 
             migrationBuilder.DropIndex(
-                name: "IX_Pessoas_EnderecoId",
+                name: "IX_Pessoas_EnderecosId",
                 table: "Pessoas");
 
             migrationBuilder.DropColumn(
@@ -212,7 +221,7 @@ namespace ContribuaMais.API.Migrations
                 table: "Pessoas");
 
             migrationBuilder.DropColumn(
-                name: "EnderecoId",
+                name: "EnderecosId",
                 table: "Pessoas");
 
             migrationBuilder.DropColumn(
@@ -241,7 +250,7 @@ namespace ContribuaMais.API.Migrations
                 defaultValue: "");
 
             migrationBuilder.AddColumn<string>(
-                name: "Endereco",
+                name: "Enderecos",
                 table: "Doadores",
                 type: "nvarchar(max)",
                 nullable: false,

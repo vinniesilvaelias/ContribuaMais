@@ -1,7 +1,9 @@
 using ContribuaMais.API.Dados;
 using ContribuaMais.API.Dados.Interfaces;
 using ContribuaMais.API.Dados.Repositorios;
+using ContribuaMais.API.Dados.Repositorios.Infraestrutura;
 using ContribuaMais.API.Models.Dados;
+using ContribuaMais.API.Models.Dados.Infraestrutura;
 using ContribuaMais.API.Servicos.Implementacoes;
 using ContribuaMais.API.Servicos.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +27,10 @@ builder.Services.AddScoped(typeof(IRepositorio<>), typeof(RepositorioBase<>));
 builder.Services.AddScoped(typeof(IRepositorio<Doacao>), typeof(RepositorioDoacao));
 
 builder.Services.AddScoped(typeof(IRepositorio<ProjetoSocial>), typeof(RepositorioProjetoSocial));
+
+builder.Services.AddScoped(typeof(IRepositorio<Doador>), typeof(RepositorioDoador));
+
+builder.Services.AddScoped(typeof(IRepositorio<Pessoa>), typeof(RepositorioPessoa));
 
 builder.Services.AddDbContext<ContribuaMaisContexto>(
     opc => opc.UseSqlServer(conexaoBancoDeDados));

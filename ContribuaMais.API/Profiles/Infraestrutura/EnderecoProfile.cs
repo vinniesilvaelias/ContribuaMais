@@ -8,8 +8,8 @@ namespace ContribuaMais.API.Profiles.Infraestrutura
     {
         public EnderecoProfile()
         {
-            CreateMap<Endereco, DtoContato>();
-            CreateMap<DtoContato, Contato>();
+            CreateMap<Endereco, DtoEndereco>();
+            CreateMap<DtoEndereco, Endereco>();
         }
     }
 }
