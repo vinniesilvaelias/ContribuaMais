@@ -8,8 +8,15 @@ namespace ContribuaMais.API.Profiles
     {
         public ProjetoSocialProfile()
         {
-            CreateMap<DtoProjetoSocial, ProjetoSocial>();
-            CreateMap<ProjetoSocial, DtoProjetoSocial>();
+            //CreateMap<DtoProjetoSocial, ProjetoSocial>();
+            //CreateMap<ProjetoSocial, DtoProjetoSocial>();
+
+            CreateMap<DtoProjetoSocial, ProjetoSocial>()
+                .ForMember(dest => dest.PessoaResponsavel,
+                           opt => opt.MapFrom(src => src.PessoaResponsavel));
+            CreateMap<ProjetoSocial, DtoProjetoSocial>()
+                .ForMember(dest => dest.PessoaResponsavel, 
+                           opt => opt.MapFrom(src => src.PessoaResponsavel));
         }
     }
 }
