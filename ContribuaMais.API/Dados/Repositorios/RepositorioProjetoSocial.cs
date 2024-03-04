@@ -13,7 +13,14 @@ namespace ContribuaMais.API.Dados.Repositorios
         {
             var lista = _contexto
                         .Set<ProjetoSocial>()
-                        .Include(d => d.Campanhas)
+                        .Include(ps => ps.Campanhas)
+                        .Include(ps => ps.PessoaResponsavel)
+                            .ThenInclude(p => p.Endereco)
+                        .Include(ps => ps.PessoaResponsavel)
+                            .ThenInclude(p => p.Contato)
+                        .Include(ps => ps.PessoaResponsavel)
+                            .ThenInclude(p => p.DocumentosPessoais)
+                        .Include(ps => ps.PessoaResponsavel)
                         .ToList();
 
             return lista;
@@ -23,7 +30,14 @@ namespace ContribuaMais.API.Dados.Repositorios
         {
             var projetoSocial = _contexto
                         .Set<ProjetoSocial>()
-                        .Include(d => d.Campanhas)
+                        .Include(ps => ps.Campanhas)
+                        .Include(ps => ps.PessoaResponsavel)
+                            .ThenInclude(p => p.Endereco)
+                        .Include(ps => ps.PessoaResponsavel)
+                            .ThenInclude(p => p.Contato)
+                        .Include(ps => ps.PessoaResponsavel)
+                            .ThenInclude(p => p.DocumentosPessoais)
+                        .Include(ps => ps.PessoaResponsavel)
                         .FirstOrDefault(d => d.Codigo == codigo);
 
             return projetoSocial;
@@ -33,7 +47,14 @@ namespace ContribuaMais.API.Dados.Repositorios
         {
             var ProjetoSocial = _contexto
                         .Set<ProjetoSocial>()
-                        .Include(d => d.Campanhas)
+                        .Include(ps => ps.Campanhas)
+                        .Include(ps => ps.PessoaResponsavel)
+                            .ThenInclude(p => p.Endereco)
+                        .Include(ps => ps.PessoaResponsavel)
+                            .ThenInclude(p => p.Contato)
+                        .Include(ps => ps.PessoaResponsavel)
+                            .ThenInclude(p => p.DocumentosPessoais)
+                        .Include(ps => ps.PessoaResponsavel)
                         .FirstOrDefault(d => d.Id == id);
 
             return ProjetoSocial;

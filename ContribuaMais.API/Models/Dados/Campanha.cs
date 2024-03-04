@@ -1,8 +1,9 @@
-﻿using ContribuaMais.API.Models.TiposBase;
+﻿using ContribuaMais.API.Models.Interfaces;
+using ContribuaMais.API.Models.TiposBase;
 
 namespace ContribuaMais.API.Models.Dados
 {
-    public class Campanha : EntidadeBase
+    public class Campanha : EntidadeBase, IEntidadeBase
     {
         public string Descricao { get; set; }
         public DateTime Inicio { get; set; }
